@@ -4,26 +4,84 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [selectedOrg, setSelectedOrg] = useState('tech-corp');
 
-  // Mock data
-  const dashboardStats = {
-    totalBudget: 2500000,
-    usedBudget: 1850000,
-    pendingRequests: 8,
-    approvedToday: 5,
+  // Organizations data
+  const organizations = [
+    { id: 'tech-corp', name: 'ТехКорп ООО', type: 'ООО' },
+    { id: 'digital-agency', name: 'Диджитал Агентство', type: 'ИП' },
+    { id: 'consulting-llc', name: 'Консалтинг Плюс ООО', type: 'ООО' },
+    { id: 'startup-inc', name: 'СтартАп Инк', type: 'АО' },
+  ];
+
+  // Mock data per organization
+  const orgData = {
+    'tech-corp': {
+      dashboardStats: {
+        totalBudget: 2500000,
+        usedBudget: 1850000,
+        pendingRequests: 8,
+        approvedToday: 5,
+      },
+      recentRequests: [
+        { id: 1, employee: 'Анна Петрова', amount: 25000, purpose: 'Командировка в Москву', status: 'pending', date: '2025-09-01', approver: 'Иванов И.И.' },
+        { id: 2, employee: 'Михаил Сидоров', amount: 15000, purpose: 'Офисные принадлежности', status: 'approved', date: '2025-09-02', approver: 'Петрова А.В.' },
+        { id: 3, employee: 'Елена Кузнецова', amount: 50000, purpose: 'Оборудование для офиса', status: 'review', date: '2025-09-03', approver: 'Смирнов В.А.' },
+        { id: 4, employee: 'Дмитрий Волков', amount: 8000, purpose: 'Обеды для команды', status: 'approved', date: '2025-09-02', approver: 'Иванов И.И.' },
+        { id: 5, employee: 'Ольга Морозова', amount: 35000, purpose: 'Обучение сотрудников', status: 'rejected', date: '2025-09-01', approver: 'Петрова А.В.' },
+      ],
+    },
+    'digital-agency': {
+      dashboardStats: {
+        totalBudget: 800000,
+        usedBudget: 520000,
+        pendingRequests: 3,
+        approvedToday: 2,
+      },
+      recentRequests: [
+        { id: 1, employee: 'Владимир Козлов', amount: 18000, purpose: 'Реклама в соцсетях', status: 'approved', date: '2025-09-03', approver: 'Смирнов А.И.' },
+        { id: 2, employee: 'Мария Новикова', amount: 12000, purpose: 'Дизайн материалы', status: 'pending', date: '2025-09-02', approver: 'Козлов В.П.' },
+        { id: 3, employee: 'Артем Белов', amount: 25000, purpose: 'Видеосъемка', status: 'review', date: '2025-09-01', approver: 'Новикова М.С.' },
+      ],
+    },
+    'consulting-llc': {
+      dashboardStats: {
+        totalBudget: 1200000,
+        usedBudget: 780000,
+        pendingRequests: 5,
+        approvedToday: 3,
+      },
+      recentRequests: [
+        { id: 1, employee: 'Сергей Орлов', amount: 35000, purpose: 'Конференция в СПБ', status: 'pending', date: '2025-09-03', approver: 'Петров С.В.' },
+        { id: 2, employee: 'Наталья Федорова', amount: 20000, purpose: 'Бизнес-литература', status: 'approved', date: '2025-09-02', approver: 'Орлов С.М.' },
+        { id: 3, employee: 'Игорь Васильев', amount: 45000, purpose: 'Аудит системы', status: 'review', date: '2025-09-01', approver: 'Федорова Н.А.' },
+      ],
+    },
+    'startup-inc': {
+      dashboardStats: {
+        totalBudget: 5000000,
+        usedBudget: 3200000,
+        pendingRequests: 12,
+        approvedToday: 8,
+      },
+      recentRequests: [
+        { id: 1, employee: 'Алексей Морозов', amount: 80000, purpose: 'Разработка MVP', status: 'approved', date: '2025-09-03', approver: 'Иванов К.Л.' },
+        { id: 2, employee: 'Юлия Крылова', amount: 45000, purpose: 'Маркетинг исследования', status: 'pending', date: '2025-09-02', approver: 'Морозов А.В.' },
+        { id: 3, employee: 'Павел Соколов', amount: 60000, purpose: 'Серверы и хостинг', status: 'review', date: '2025-09-01', approver: 'Крылова Ю.Н.' },
+      ],
+    },
   };
 
-  const recentRequests = [
-    { id: 1, employee: 'Анна Петрова', amount: 25000, purpose: 'Командировка в Москву', status: 'pending', date: '2025-09-01', approver: 'Иванов И.И.' },
-    { id: 2, employee: 'Михаил Сидоров', amount: 15000, purpose: 'Офисные принадлежности', status: 'approved', date: '2025-09-02', approver: 'Петрова А.В.' },
-    { id: 3, employee: 'Елена Кузнецова', amount: 50000, purpose: 'Оборудование для офиса', status: 'review', date: '2025-09-03', approver: 'Смирнов В.А.' },
-    { id: 4, employee: 'Дмитрий Волков', amount: 8000, purpose: 'Обеды для команды', status: 'approved', date: '2025-09-02', approver: 'Иванов И.И.' },
-    { id: 5, employee: 'Ольга Морозова', amount: 35000, purpose: 'Обучение сотрудников', status: 'rejected', date: '2025-09-01', approver: 'Петрова А.В.' },
-  ];
+  const currentOrgData = orgData[selectedOrg as keyof typeof orgData];
+  const dashboardStats = currentOrgData.dashboardStats;
+  const recentRequests = currentOrgData.recentRequests;
+
+
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -52,12 +110,43 @@ const Index = () => {
       {/* Header */}
       <header className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <Icon name="CreditCard" className="w-5 h-5 text-white" />
               </div>
               <h1 className="text-xl font-semibold text-slate-900">Подотчетные средства</h1>
+            </div>
+            
+            {/* Organization Selector */}
+            <div className="flex items-center space-x-3">
+              <Icon name="Building2" className="w-5 h-5 text-muted-foreground" />
+              <Select value={selectedOrg} onValueChange={setSelectedOrg}>
+                <SelectTrigger className="w-64">
+                  <SelectValue>
+                    <div className="flex items-center justify-between w-full">
+                      <span className="font-medium">
+                        {organizations.find(org => org.id === selectedOrg)?.name}
+                      </span>
+                      <Badge variant="outline" className="ml-2 text-xs">
+                        {organizations.find(org => org.id === selectedOrg)?.type}
+                      </Badge>
+                    </div>
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {organizations.map((org) => (
+                    <SelectItem key={org.id} value={org.id}>
+                      <div className="flex items-center justify-between w-full">
+                        <span className="font-medium">{org.name}</span>
+                        <Badge variant="outline" className="ml-2 text-xs">
+                          {org.type}
+                        </Badge>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div className="flex items-center space-x-3">
