@@ -164,9 +164,10 @@ const Index = () => {
 
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-3 mb-6">
+          <TabsList className="grid w-full max-w-2xl grid-cols-4 mb-6">
             <TabsTrigger value="dashboard">Главная</TabsTrigger>
             <TabsTrigger value="requests">Заявки</TabsTrigger>
+            <TabsTrigger value="banking">Банк и кассы</TabsTrigger>
             <TabsTrigger value="analytics">Аналитика</TabsTrigger>
           </TabsList>
 
@@ -486,6 +487,235 @@ const Index = () => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* Banking Tab */}
+          <TabsContent value="banking" className="space-y-6">
+            {/* Bank Accounts and Cards Overview */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Cash Register */}
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Касса организации</CardTitle>
+                  <Icon name="Banknote" className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-slate-900">125 750 ₽</div>
+                  <div className="flex items-center space-x-2 mt-2">
+                    <Icon name="ArrowUp" className="w-4 h-4 text-green-500" />
+                    <p className="text-xs text-green-600">+8 500 ₽ сегодня</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Corporate Cards */}
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Корпоративные карты</CardTitle>
+                  <Icon name="CreditCard" className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-slate-900">3 карты</div>
+                  <p className="text-xs text-muted-foreground mt-2">Общий лимит: 500 000 ₽</p>
+                </CardContent>
+              </Card>
+
+              {/* Bank Accounts */}
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Расчетные счета</CardTitle>
+                  <Icon name="Landmark" className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-slate-900">2 счета</div>
+                  <p className="text-xs text-muted-foreground mt-2">Остаток: 1 842 300 ₽</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Upload Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Icon name="Upload" className="w-5 h-5 mr-2" />
+                  Загрузка банковских выписок
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:border-primary transition-colors">
+                  <div className="flex flex-col items-center space-y-4">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                      <Icon name="FileSpreadsheet" className="w-8 h-8 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-slate-900">Загрузите выписку</h3>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Поддерживаются форматы: .xls, .xlsx, .csv, .1c
+                      </p>
+                    </div>
+                    <div className="flex space-x-3">
+                      <Button>
+                        <Icon name="Upload" className="w-4 h-4 mr-2" />
+                        Выбрать файл
+                      </Button>
+                      <Button variant="outline">
+                        <Icon name="Link" className="w-4 h-4 mr-2" />
+                        API интеграция
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Accounts and Cards List */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Bank Accounts */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <Icon name="Landmark" className="w-5 h-5 mr-2" />
+                      Расчетные счета
+                    </span>
+                    <Button variant="outline" size="sm">
+                      <Icon name="Plus" className="w-4 h-4 mr-1" />
+                      Добавить
+                    </Button>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {[
+                      { bank: 'Сбербанк', account: '40702810***0001234', balance: 1250000, currency: '₽' },
+                      { bank: 'ВТБ', account: '40702810***0005678', balance: 592300, currency: '₽' },
+                    ].map((account, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <Icon name="Landmark" className="w-5 h-5 text-blue-600" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-slate-900">{account.bank}</p>
+                            <p className="text-sm text-muted-foreground">{account.account}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-semibold text-slate-900">
+                            {account.balance.toLocaleString('ru-RU')} {account.currency}
+                          </p>
+                          <p className="text-xs text-muted-foreground">Остаток</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Corporate Cards */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <Icon name="CreditCard" className="w-5 h-5 mr-2" />
+                      Корпоративные карты
+                    </span>
+                    <Button variant="outline" size="sm">
+                      <Icon name="Plus" className="w-4 h-4 mr-1" />
+                      Добавить
+                    </Button>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {[
+                      { holder: 'Иванов И.И.', number: '5536 91** **** 1234', limit: 100000, spent: 23500, status: 'active' },
+                      { holder: 'Петрова А.В.', number: '4276 38** **** 5678', limit: 200000, spent: 156800, status: 'active' },
+                      { holder: 'Сидоров М.П.', number: '5469 12** **** 9012', limit: 150000, spent: 89200, status: 'blocked' },
+                    ].map((card, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <Icon name="CreditCard" className="w-5 h-5 text-green-600" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-slate-900">{card.holder}</p>
+                            <p className="text-sm text-muted-foreground">{card.number}</p>
+                          </div>
+                        </div>
+                        <div className="text-right space-y-1">
+                          <p className="font-semibold text-slate-900">
+                            {card.spent.toLocaleString('ru-RU')} / {card.limit.toLocaleString('ru-RU')} ₽
+                          </p>
+                          <Badge className={card.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                            {card.status === 'active' ? 'Активна' : 'Заблокирована'}
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Recent Transactions */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <span className="flex items-center">
+                    <Icon name="Receipt" className="w-5 h-5 mr-2" />
+                    Последние операции
+                  </span>
+                  <Button variant="ghost" size="sm">
+                    Показать все
+                    <Icon name="ArrowRight" className="w-4 h-4 ml-1" />
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {[
+                    { type: 'card', description: 'Офисные принадлежности', amount: -15000, account: 'Карта *1234', date: '03.09.2025', status: 'completed' },
+                    { type: 'bank', description: 'Поступление от клиента', amount: 125000, account: 'Сбербанк *0001234', date: '03.09.2025', status: 'completed' },
+                    { type: 'cash', description: 'Выдача подотчетных средств', amount: -25000, account: 'Касса', date: '02.09.2025', status: 'completed' },
+                    { type: 'card', description: 'Командировочные расходы', amount: -8500, account: 'Карта *5678', date: '02.09.2025', status: 'pending' },
+                  ].map((transaction, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                          transaction.type === 'card' ? 'bg-blue-100' :
+                          transaction.type === 'bank' ? 'bg-green-100' : 'bg-yellow-100'
+                        }`}>
+                          <Icon 
+                            name={
+                              transaction.type === 'card' ? 'CreditCard' :
+                              transaction.type === 'bank' ? 'Landmark' : 'Banknote'
+                            } 
+                            className={`w-5 h-5 ${
+                              transaction.type === 'card' ? 'text-blue-600' :
+                              transaction.type === 'bank' ? 'text-green-600' : 'text-yellow-600'
+                            }`} 
+                          />
+                        </div>
+                        <div>
+                          <p className="font-medium text-slate-900">{transaction.description}</p>
+                          <p className="text-sm text-muted-foreground">{transaction.account} • {transaction.date}</p>
+                        </div>
+                      </div>
+                      <div className="text-right space-y-1">
+                        <p className={`font-semibold ${transaction.amount > 0 ? 'text-green-600' : 'text-slate-900'}`}>
+                          {transaction.amount > 0 ? '+' : ''}{transaction.amount.toLocaleString('ru-RU')} ₽
+                        </p>
+                        <Badge className={transaction.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
+                          {transaction.status === 'completed' ? 'Проведено' : 'В обработке'}
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
         </Tabs>
       </div>
     </div>
