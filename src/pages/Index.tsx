@@ -150,6 +150,10 @@ const Index = () => {
             </div>
           </div>
           <div className="flex items-center space-x-3">
+            <Button variant="outline" size="sm" onClick={() => window.location.href = '/profile'}>
+              <Icon name="User" className="w-4 h-4 mr-2" />
+              Профиль
+            </Button>
             <Button variant="outline" size="sm">
               <Icon name="Download" className="w-4 h-4 mr-2" />
               Экспорт
